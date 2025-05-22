@@ -148,8 +148,26 @@ def register():
     except Exception as e:
         print("❌ Error al registrar usuario:", str(e))
         return jsonify({"ok": False, "message": "Error interno del servidor"}), 500
- 
- 
+    
+@app.route('/delete', methods=['GET'])
+def delete_user():
+    try:
+        #Buscar usuario por ID
+        user = User.query.get(id)
+        if not user:
+            return jsonify({"ok" : False, "message" : "Usuario no encontrado"}),
+    
+        db.session.delete(user)
+        db.session.commit()
+
+        return jsonify ({"ok" : True, "message" : f"Usuario con ID{id} eliminado correctamente"}), 200
+    
+    except Exception as e:
+        print("Error al eliminar usuario:", str(e))
+        return jsonify ({"ok": False, "message": "Error interno del servidor"}), 500
+
+
+
 @app.route('/users_list', methods=['GET'])
 def get_all_users():
     try: 
